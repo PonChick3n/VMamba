@@ -1,0 +1,16 @@
+MODEL:
+  TYPE: vssm
+  NAME: vssm_tiny_64
+  DROP_PATH_RATE: 0.1
+  VSSM:
+    EMBED_DIM: 64
+    DEPTHS: [2, 2, 4, 1]
+    SSM_D_STATE: 8
+    SSM_DT_RANK: "auto"
+    MLP_RATIO: 0.0
+    SSM_FORWARDTYPE: "v0"
+    PATCHEMBED: "v1"
+    DOWNSAMPLE: "v1"
+    SSM_RATIO: 1.0
+DATA:
+  IMG_SIZE: 64
