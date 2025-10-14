@@ -12,6 +12,10 @@ from math import inf
 import torch
 import torch.distributed as dist
 from timm.utils import ModelEma as ModelEma
+from torch.serialization import add_safe_globals
+from yacs.config import CfgNode
+
+add_safe_globals([CfgNode])
 
 
 def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, logger, model_ema: ModelEma=None):
