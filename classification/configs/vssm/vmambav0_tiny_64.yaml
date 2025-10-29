@@ -3,39 +3,61 @@ MODEL:
   NAME: vssm_tiny_64
   DROP_PATH_RATE: 0.1
   VSSM:
-    EMBED_DIM: 96            
-    DEPTHS: [2, 3, 6, 2]     
+    EMBED_DIM: 96
+    DEPTHS: [2, 3, 6, 2]
     SSM_D_STATE: 8
     SSM_DT_RANK: "auto"
-    MLP_RATIO: 2.0           
+    MLP_RATIO: 2.0
     SSM_FORWARDTYPE: "v0"
     PATCHEMBED: "v1"
     DOWNSAMPLE: "v1"
     SSM_RATIO: 1.0
 
 DATA:
-  IMG_SIZE: 64               
-  BATCH_SIZE: 128            
+  DATASET: tiny_imagenet
+  IMG_SIZE: 64
+  BATCH_SIZE: 64
+  DATA_PATH: /content/tiny-imagenet-200
   NUM_WORKERS: 4
+  INTERPOLATION: bicubic
 
 TRAIN:
-  EPOCHS: 200
+  EPOCHS: 100
   WARMUP_EPOCHS: 5
-  BASE_LR: 1e-3              
+  BASE_LR: 1e-3
   MIN_LR: 1e-5
   WEIGHT_DECAY: 0.05
-  OPTIMIZER: adamw
+  CLIP_GRAD: 5.0
+  AUTO_RESUME: True
+  ACCUMULATION_STEPS: 1
+  USE_CHECKPOINT: False
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+    EPS: 1e-8
+    MOMENTUM: 0.9
   LR_SCHEDULER:
     NAME: cosine
-  CLIP_GRAD: 5.0             
 
 AUG:
   COLOR_JITTER: 0.4
   AUTO_AUGMENT: rand-m9-mstd0.5-inc1
-  RANDOM_ERASE: 0.1
+  REPROB: 0.25
+  REMODE: pixel
+  RECOUNT: 1
+  MIXUP: 0.0
+  CUTMIX: 0.0
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  MIXUP_MODE: batch
 
-TEST:
-  CROP: False
+MODEL:
+  LABEL_SMOOTHING: 0.1
 
-PRINT_FREQ: 100
-SAVE_FREQ: 10
+AMP_ENABLE: True
+
+OUTPUT: /content/output/vmamba_tiny64_tinyimagenet
+SAVE_FREQ: 1
+PRINT_FREQ: 10
+SEED: 42
+TAG: tinyimagenet
