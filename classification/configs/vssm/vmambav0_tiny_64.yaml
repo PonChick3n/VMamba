@@ -3,14 +3,39 @@ MODEL:
   NAME: vssm_tiny_64
   DROP_PATH_RATE: 0.1
   VSSM:
-    EMBED_DIM: 64
-    DEPTHS: [2, 2, 4, 1]
+    EMBED_DIM: 96            
+    DEPTHS: [2, 3, 6, 2]     
     SSM_D_STATE: 8
     SSM_DT_RANK: "auto"
-    MLP_RATIO: 0.0
+    MLP_RATIO: 2.0           
     SSM_FORWARDTYPE: "v0"
     PATCHEMBED: "v1"
     DOWNSAMPLE: "v1"
     SSM_RATIO: 1.0
+
 DATA:
-  IMG_SIZE: 64
+  IMG_SIZE: 64               
+  BATCH_SIZE: 128            
+  NUM_WORKERS: 4
+
+TRAIN:
+  EPOCHS: 200
+  WARMUP_EPOCHS: 5
+  BASE_LR: 1e-3              
+  MIN_LR: 1e-5
+  WEIGHT_DECAY: 0.05
+  OPTIMIZER: adamw
+  LR_SCHEDULER:
+    NAME: cosine
+  CLIP_GRAD: 5.0             
+
+AUG:
+  COLOR_JITTER: 0.4
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  RANDOM_ERASE: 0.1
+
+TEST:
+  CROP: False
+
+PRINT_FREQ: 100
+SAVE_FREQ: 10
